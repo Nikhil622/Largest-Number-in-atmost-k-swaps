@@ -1,0 +1,58 @@
+class Solution
+{
+    public:
+    vector<int> maxIdx(int idx,string &s)
+    {
+        int res=idx;
+        vector<int>v;
+        for(int i=idx+1;i<s.size();++i)
+        {  if(s[res]<s[i])
+              res=i;
+        }
+        if(res==idx)
+          {  v.push_back(idx);
+             return v;  
+          }
+        for(int i=idx+1;i<s.size();++i)
+        {  if(s[res]==s[i])
+              v.push_back(i);
+        }
+      return v;
+    }
+    void fun(int idx,int k,string &s,string & res)
+    {  if(k==0 || idx==s.size())
+         { 
+            //     for(int i=0;i<s.size();++i)
+            //         {  if(res[i]==s[i])
+            //               continue;  
+            //           else if(res[i]<s[i])
+            //              { for(int j=i;j<s.size();++j)
+            //                  res[j]=s[j];
+            //                 return;
+            //              }
+            //             else
+            //               return;
+            //         }
+            //   return;
+             // above code can be written in one line
+             if(s.compare(res)>0)
+               res=s;
+             return;
+        }
+      auto v=maxIdx(idx,s);
+      if(v.size()==1 && idx==v[0])
+      {  fun(idx+1,k,s,res);
+          return;
+      }
+      for(int i=0;i<v.size();++i)
+      { swap(s[idx],s[v[i]]);
+         fun(idx+1,k-1,s,res);
+         swap(s[idx],s[v[i]]);
+      }
+    }
+    string findMaximumNum(string &s, int k)
+    {  string res=s;
+      fun(0,k,s,res);
+      return res;
+    }
+};
